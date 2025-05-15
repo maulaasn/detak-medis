@@ -56,7 +56,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
         selectedIndex: selectedIndex,
         barItems: [
           BarItem(
-            filledIcon: Icons.house,
+            filledIcon: Icons.house_rounded,
             outlinedIcon: Icons.home_outlined,
           ),
           BarItem(
