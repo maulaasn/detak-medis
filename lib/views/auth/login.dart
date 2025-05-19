@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
       String email = _emailController.text;
       String password = _passwordController.text;
       
-      print('Email/Nama: $email');
+      print('Email/Username: $email');
       print('Password: $password');
       
       // Navigasi ke halaman berikutnya
@@ -84,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                 
                 // Judul dan Subtitle
                 Text(
-                  'Selamat Datang',
+                  'Welcome to Detak Medis',
                   style: blackTextStyle.copyWith(
                     fontSize: 28,
                     fontWeight: bold,
@@ -92,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 8),
                 Text(
-                  'Silakan masuk untuk melanjutkan',
+                  'Please login to continue',
                   style: greyTextStyle.copyWith(
                     fontSize: 16,
                     fontWeight: light,
@@ -102,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                 
                 // Form Input
                 Text(
-                  'Email atau Nama',
+                  'Email or username',
                   style: blackTextStyle.copyWith(
                     fontSize: 14,
                     fontWeight: medium,
@@ -121,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
-                      hintText: 'Masukkan email atau nama',
+                      hintText: 'Enter email or username',
                       hintStyle: greyTextStyle.copyWith(fontSize: 14),
                       prefixIcon: Icon(Icons.person_outline, color: Colors.grey),
                       border: InputBorder.none,
@@ -152,7 +152,7 @@ class _LoginPageState extends State<LoginPage> {
                     controller: _passwordController,
                     obscureText: !_isPasswordVisible,
                     decoration: InputDecoration(
-                      hintText: 'Masukkan password',
+                      hintText: 'At least 8 characters',
                       hintStyle: greyTextStyle.copyWith(fontSize: 14),
                       prefixIcon: Icon(Icons.lock_outline, color: Colors.grey),
                       suffixIcon: IconButton(
@@ -189,7 +189,7 @@ class _LoginPageState extends State<LoginPage> {
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
                     child: Text(
-                      'Lupa Password?',
+                      'Forgot Password?',
                       style: blackTextStyle.copyWith(
                         fontSize: 13,
                         fontWeight: medium,
@@ -222,7 +222,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         )
                       : Text(
-                          'MASUK',
+                          'LOGIN',
                           style: whiteTextStyle.copyWith(
                             fontSize: 16,
                             fontWeight: semiBold,
@@ -237,7 +237,7 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Belum punya akun?',
+                        "Don't have an account?",
                         style: greyTextStyle.copyWith(fontWeight: regular),
                       ),
                       TextButton(
@@ -253,7 +253,7 @@ class _LoginPageState extends State<LoginPage> {
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
                         child: Text(
-                          'Daftar di sini',
+                          'Register',
                           style: TextStyle(
                             color: wMainColor,
                             fontWeight: semiBold,

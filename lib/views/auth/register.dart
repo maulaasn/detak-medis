@@ -82,7 +82,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
 
                 Text(
-                  'Buat Akun Baru',
+                  'Create a New Account',
                   style: blackTextStyle.copyWith(
                     fontSize: 28,
                     fontWeight: bold,
@@ -90,7 +90,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 SizedBox(height: 8),
                 Text(
-                  'Silakan isi data untuk mendaftar',
+                  'Please fill in your data to register',
                   style: greyTextStyle.copyWith(
                     fontSize: 16,
                     fontWeight: light,
@@ -100,7 +100,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
                 // Nama
                 Text(
-                  'Nama Lengkap',
+                  'Full Name',
                   style: blackTextStyle.copyWith(
                     fontSize: 14,
                     fontWeight: medium,
@@ -116,7 +116,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: TextFormField(
                     controller: _nameController,
                     decoration: InputDecoration(
-                      hintText: 'Masukkan nama lengkap',
+                      hintText: 'Enter full name',
                       hintStyle: greyTextStyle.copyWith(fontSize: 14),
                       prefixIcon: Icon(Icons.person_outline, color: Colors.grey),
                       border: InputBorder.none,
@@ -146,7 +146,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
-                      hintText: 'Masukkan email',
+                      hintText: 'Enter email',
                       hintStyle: greyTextStyle.copyWith(fontSize: 14),
                       prefixIcon: Icon(Icons.email_outlined, color: Colors.grey),
                       border: InputBorder.none,
@@ -176,7 +176,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     controller: _passwordController,
                     obscureText: !_isPasswordVisible,
                     decoration: InputDecoration(
-                      hintText: 'Masukkan password',
+                      hintText: 'At least 8 characters',
                       hintStyle: greyTextStyle.copyWith(fontSize: 14),
                       prefixIcon: Icon(Icons.lock_outline, color: Colors.grey),
                       suffixIcon: IconButton(
@@ -223,7 +223,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                         )
                       : Text(
-                          'DAFTAR',
+                          'REGISTER',
                           style: whiteTextStyle.copyWith(
                             fontSize: 16,
                             fontWeight: semiBold,
@@ -238,7 +238,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Sudah punya akun?',
+                        'Already have an account?',
                         style: greyTextStyle.copyWith(fontWeight: regular),
                       ),
                       TextButton(
@@ -251,7 +251,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
                         child: Text(
-                          'Masuk di sini',
+                          'Login',
                           style: TextStyle(
                             color: wMainColor,
                             fontWeight: semiBold,

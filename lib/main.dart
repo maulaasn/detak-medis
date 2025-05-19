@@ -1,4 +1,6 @@
 import 'package:detak_medis/views/auth/login.dart';
+import 'package:detak_medis/views/auth/register.dart';
+import 'package:detak_medis/views/onboard/get_started.dart';
 import 'package:flutter/material.dart';
 import 'package:detak_medis/views/chatbot/chatbot.dart';
 import 'package:detak_medis/views/home/home_page.dart';
@@ -17,7 +19,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/', 
       routes: {
-        '/': (context) => const LoginPage(),
+        '/': (context) => const OnboardingPage(),
+        '/login': (context) => const LoginPage(),
+        '/register': (context) => const RegisterPage(),
         '/home': (context) => const HomePage(),
         '/chatbot': (context) => const ChatbotPage(),
         // Tambahkan route lain di sini sesuai kebutuhan
