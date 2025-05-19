@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
                   Text(
                     'Hello,\nAchmad Risel!',
                     style: blackTextStyle.copyWith(
-                      fontSize: 24,
+                      fontSize: 20,
                       fontWeight: semiBold,
                     ),
                   ),
@@ -52,8 +52,8 @@ class _HomePageState extends State<HomePage> {
                     },
                     child: Image.asset(
                       'assets/img/3d_avatar_6.png',
-                      width: 70,
-                      height: 70,
+                      width: 50,
+                      height: 50,
                     ),
                   ),
                 ],

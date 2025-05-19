@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:detak_medis/ui/theme.dart';
 import 'package:detak_medis/views/home/home_page.dart';
 import 'package:detak_medis/views/chatbot/chatbot.dart';
-import 'package:water_drop_nav_bar/water_drop_nav_bar.dart';
-// Tambahkan halaman lain jika perlu
 
 class BottomNavbar extends StatefulWidget {
   const BottomNavbar({super.key});
@@ -16,16 +14,12 @@ class _BottomNavbarState extends State<BottomNavbar> {
   late PageController pageController;
   int selectedIndex = 0;
 
-  final List<Widget> screens = [
-    const HomePage(),
-    const ChatbotPage(),
-    // Tambahkan halaman lain jika perlu
-  ];
+  final List<Widget> screens = [const HomePage(), const ChatbotPage()];
 
   @override
   void initState() {
     super.initState();
-    pageController = PageController();
+    pageController = PageController(initialPage: selectedIndex);
   }
 
   @override
@@ -36,35 +30,52 @@ class _BottomNavbarState extends State<BottomNavbar> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
     return Scaffold(
+      bottomNavigationBar: Container(
+        decoration: const BoxDecoration(
+          border: Border(
+            top: BorderSide(
+              color: Colors.grey, // Warna garis tepi atas
+              width: 0.15,
+            ),
+          ),
+        ),
+        child: NavigationBar(
+          backgroundColor: Colors.white,
+          indicatorColor: wThirdColor,
+          selectedIndex: selectedIndex,
+          onDestinationSelected: (int index) {
+            setState(() {
+              selectedIndex = index;
+            });
+            pageController.jumpToPage(index);
+          },
+          destinations: [
+            NavigationDestination(
+              selectedIcon: Icon(Icons.home, color: wMainColor),
+              icon: Icon(Icons.home_outlined),
+              label: 'Home',
+            ),
+             NavigationDestination(
+             selectedIcon: Icon(Icons.message, color: wMainColor),
+              icon: Icon(Icons.message_outlined),
+              label: 'Chatbot', 
+            ),
+          ],
+        ),
+      ),
+
       body: PageView(
         controller: pageController,
-        physics: const NeverScrollableScrollPhysics(),
-        children: screens,
-      ),
-      bottomNavigationBar: WaterDropNavBar(
-        backgroundColor: Colors.white,
-        waterDropColor: wMainColor,
-        onItemSelected: (index) {
-          setState(() => selectedIndex = index);
-          pageController.animateToPage(
-            selectedIndex,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeOutQuad,
-          );
+        onPageChanged: (index) {
+          setState(() {
+            selectedIndex = index;
+          });
         },
-        selectedIndex: selectedIndex,
-        barItems: [
-          BarItem(
-            filledIcon: Icons.house_rounded,
-            outlinedIcon: Icons.home_outlined,
-          ),
-          BarItem(
-            filledIcon: Icons.chat_rounded,
-            outlinedIcon: Icons.chat_outlined,
-          ),
-        ],
+        children: screens,
       ),
     );
   }
 }
+

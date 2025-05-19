@@ -2,7 +2,6 @@ import 'package:detak_medis/views/auth/login.dart';
 import 'package:flutter/material.dart';
 import 'package:detak_medis/views/chatbot/chatbot.dart';
 import 'package:detak_medis/views/home/home_page.dart';
-import 'package:detak_medis/ui/widgets/bottom_navbar.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
