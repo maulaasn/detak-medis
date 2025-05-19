@@ -1,49 +1,49 @@
-import 'package:detak_medis/ui/widgets/bottom_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:detak_medis/ui/theme.dart';
-import 'package:detak_medis/views/auth/register.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   bool _isPasswordVisible = false;
   bool _isLoading = false;
 
-  void _login() {
+  void _register() {
     setState(() {
       _isLoading = true;
     });
-    
-    // Simulasi proses login
+
+    // Simulasi proses register
     Future.delayed(const Duration(seconds: 2), () {
       setState(() {
         _isLoading = false;
       });
-      
-      // Implementasi logika login sebenarnya
+
+      // Implementasi logika register sebenarnya
+      String name = _nameController.text;
       String email = _emailController.text;
       String password = _passwordController.text;
-      
-      print('Email/Nama: $email');
+
+      print('Nama: $name');
+      print('Email: $email');
       print('Password: $password');
-      
-      // Navigasi ke halaman berikutnya
-      Navigator.push(context, MaterialPageRoute(
-        builder: (context) => const BottomNavbar(),
-      ));
+
+      // Navigasi ke halaman berikutnya setelah register
+      // Navigator.pushReplacementNamed(context, '/home');
     });
   }
 
   @override
   void dispose() {
+    _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
@@ -61,10 +61,9 @@ class _LoginPageState extends State<LoginPage> {
               vertical: defaultMargin * 1.5,
             ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                // Logo atau Icon (optional)
+              children: [
+                // Icon atau Logo
                 Center(
                   child: Container(
                     margin: EdgeInsets.only(bottom: defaultMargin * 2),
@@ -81,10 +80,9 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                
-                // Judul dan Subtitle
+
                 Text(
-                  'Selamat Datang',
+                  'Buat Akun Baru',
                   style: blackTextStyle.copyWith(
                     fontSize: 28,
                     fontWeight: bold,
@@ -92,17 +90,17 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 8),
                 Text(
-                  'Silakan masuk untuk melanjutkan',
+                  'Silakan isi data untuk mendaftar',
                   style: greyTextStyle.copyWith(
                     fontSize: 16,
                     fontWeight: light,
                   ),
                 ),
                 SizedBox(height: defaultMargin * 2),
-                
-                // Form Input
+
+                // Nama
                 Text(
-                  'Email atau Nama',
+                  'Nama Lengkap',
                   style: blackTextStyle.copyWith(
                     fontSize: 14,
                     fontWeight: medium,
@@ -113,15 +111,12 @@ class _LoginPageState extends State<LoginPage> {
                   decoration: BoxDecoration(
                     color: Colors.grey.shade50,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: Colors.grey.shade200,
-                    ),
+                    border: Border.all(color: Colors.grey.shade200),
                   ),
                   child: TextFormField(
-                    controller: _emailController,
-                    keyboardType: TextInputType.emailAddress,
+                    controller: _nameController,
                     decoration: InputDecoration(
-                      hintText: 'Masukkan email atau nama',
+                      hintText: 'Masukkan nama lengkap',
                       hintStyle: greyTextStyle.copyWith(fontSize: 14),
                       prefixIcon: Icon(Icons.person_outline, color: Colors.grey),
                       border: InputBorder.none,
@@ -131,7 +126,38 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 SizedBox(height: defaultMargin),
-                
+
+                // Email
+                Text(
+                  'Email',
+                  style: blackTextStyle.copyWith(
+                    fontSize: 14,
+                    fontWeight: medium,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade50,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.grey.shade200),
+                  ),
+                  child: TextFormField(
+                    controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                      hintText: 'Masukkan email',
+                      hintStyle: greyTextStyle.copyWith(fontSize: 14),
+                      prefixIcon: Icon(Icons.email_outlined, color: Colors.grey),
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(vertical: 16),
+                    ),
+                    style: blackTextStyle.copyWith(fontWeight: regular),
+                  ),
+                ),
+                SizedBox(height: defaultMargin),
+
+                // Password
                 Text(
                   'Password',
                   style: blackTextStyle.copyWith(
@@ -144,9 +170,7 @@ class _LoginPageState extends State<LoginPage> {
                   decoration: BoxDecoration(
                     color: Colors.grey.shade50,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: Colors.grey.shade200,
-                    ),
+                    border: Border.all(color: Colors.grey.shade200),
                   ),
                   child: TextFormField(
                     controller: _passwordController,
@@ -174,34 +198,11 @@ class _LoginPageState extends State<LoginPage> {
                     style: blackTextStyle.copyWith(fontWeight: regular),
                   ),
                 ),
-                
-                // Lupa Password
-                Container(
-                  alignment: Alignment.centerRight,
-                  margin: EdgeInsets.only(top: 8),
-                  child: TextButton(
-                    onPressed: () {
-                      // Aksi lupa password
-                    },
-                    style: TextButton.styleFrom(
-                      minimumSize: Size.zero,
-                      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
-                    child: Text(
-                      'Lupa Password?',
-                      style: blackTextStyle.copyWith(
-                        fontSize: 13,
-                        fontWeight: medium,
-                      ),
-                    ),
-                  ),
-                ),
                 SizedBox(height: defaultMargin * 2),
-                
-                // Tombol Login
+
+                // Tombol Register
                 ElevatedButton(
-                  onPressed: _isLoading ? null : _login,
+                  onPressed: _isLoading ? null : _register,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: wMainColor,
                     foregroundColor: Colors.white,
@@ -222,7 +223,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         )
                       : Text(
-                          'MASUK',
+                          'DAFTAR',
                           style: whiteTextStyle.copyWith(
                             fontSize: 16,
                             fontWeight: semiBold,
@@ -230,22 +231,19 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                 ),
                 SizedBox(height: defaultMargin * 1.5),
-                
-                // Opsi Register
+
+                // Opsi Login
                 Center(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Belum punya akun?',
+                        'Sudah punya akun?',
                         style: greyTextStyle.copyWith(fontWeight: regular),
                       ),
                       TextButton(
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const RegisterPage()),
-                          );
+                          Navigator.pop(context);
                         },
                         style: TextButton.styleFrom(
                           minimumSize: Size.zero,
@@ -253,7 +251,7 @@ class _LoginPageState extends State<LoginPage> {
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
                         child: Text(
-                          'Daftar di sini',
+                          'Masuk di sini',
                           style: TextStyle(
                             color: wMainColor,
                             fontWeight: semiBold,
