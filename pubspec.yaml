@@ -38,6 +38,8 @@ dependencies:
   lucide_icons: ^0.257.0
   flutter_gen_ai_chat_ui: ^2.1.2
   url_launcher: ^6.1.7
+  dotted_border: ^2.0.0
+  image_picker: ^1.0.4
 
 dev_dependencies:
   flutter_test:

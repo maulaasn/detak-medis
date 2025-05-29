@@ -1,8 +1,9 @@
 import 'package:detak_medis/ui/theme.dart';
 import 'package:flutter/material.dart';
-
 import 'package:detak_medis/views/profile/profile.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:detak_medis/views/upload/upload_image.dart';
+import 'package:detak_medis/views/doctor/find_doctor.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,7 +15,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   void _launchURL(String url) async {
     final uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {  
+    if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
     } else {
       throw 'Could not launch $url';
@@ -47,7 +48,8 @@ class _HomePageState extends State<HomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ProfilePage()),
+                          builder: (context) => const ProfilePage(),
+                        ),
                       );
                     },
                     child: Image.asset(
@@ -62,9 +64,6 @@ class _HomePageState extends State<HomePage> {
 
               // Chat Assistant Card
               GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, '/chatbot');
-                },
                 child: Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
@@ -73,7 +72,11 @@ class _HomePageState extends State<HomePage> {
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.smart_toy, color: Colors.white, size: 36),
+                      const Icon(
+                        Icons.smart_toy,
+                        color: Colors.white,
+                        size: 36,
+                      ),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Text(
@@ -101,10 +104,15 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Expanded(
                     child: FeatureCard(
-                      title: 'Scan Report',
-                      icon: Icons.qr_code_scanner,
+                      title: 'Upload Image',
+                      icon: Icons.upload_file,
                       onTap: () {
-                        // TODO: Aksi scan report
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const UploadImagePage(),
+                          ),
+                        );
                       },
                     ),
                   ),
@@ -114,7 +122,12 @@ class _HomePageState extends State<HomePage> {
                       title: 'Find Doctor',
                       icon: Icons.search,
                       onTap: () {
-                        // TODO: Aksi cari dokter
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const FindDoctorPage(),
+                          ),
+                        );
                       },
                     ),
                   ),
@@ -136,7 +149,8 @@ class _HomePageState extends State<HomePage> {
                 subtitle:
                     'What are the signs of an unhealthy heart? What should you do in case of a heart attack? Dr Lim Choon Pin ...',
                 imagePath: 'assets/img/doctor-artikel1.png',
-                url: 'https://www.mountelizabeth.com.sg/id/health-plus/article/10-heart-questions-answered',
+                url:
+                    'https://www.mountelizabeth.com.sg/id/health-plus/article/10-heart-questions-answered',
                 onTap: _launchURL,
               ),
               const SizedBox(height: 16),
@@ -145,7 +159,8 @@ class _HomePageState extends State<HomePage> {
                 subtitle:
                     'Chronic kidney disease has been on the rise, and it is more important than ever to know what chronic ...',
                 imagePath: 'assets/img/doctor-artikel2.png',
-                url: 'https://www.mountelizabeth.com.sg/id/health-plus/article/living-with-chronic-kidney-disease',
+                url:
+                    'https://www.mountelizabeth.com.sg/id/health-plus/article/living-with-chronic-kidney-disease',
                 onTap: _launchURL,
               ),
               const SizedBox(height: 16),
@@ -154,7 +169,8 @@ class _HomePageState extends State<HomePage> {
                 subtitle:
                     'Atrial fibrillation (AF or AFib), is the most commonly diagnosed arrhythmia in clinical practice ...',
                 imagePath: 'assets/img/doctor-artikel3.png',
-                url: 'https://www.mountelizabeth.com.sg/id/health-plus/article/pulsed-field-ablation-atrial-fibrillation?sourceType=browse-healthplus&sourceDetail=keyword-search',
+                url:
+                    'https://www.mountelizabeth.com.sg/id/health-plus/article/pulsed-field-ablation-atrial-fibrillation?sourceType=browse-healthplus&sourceDetail=keyword-search',
                 onTap: _launchURL,
               ),
             ],
@@ -239,12 +255,15 @@ class ArticleCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title,
-                      style: whiteTextStyle.copyWith(
-                          fontSize: 16, fontWeight: FontWeight.bold)),
+                  Text(
+                    title,
+                    style: whiteTextStyle.copyWith(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   const SizedBox(height: 8),
-                  Text(subtitle,
-                      style: whiteTextStyle.copyWith(fontSize: 12)),
+                  Text(subtitle, style: whiteTextStyle.copyWith(fontSize: 12)),
                 ],
               ),
             ),

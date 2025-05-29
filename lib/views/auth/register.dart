@@ -116,7 +116,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: TextFormField(
                     controller: _nameController,
                     decoration: InputDecoration(
-                      hintText: 'Enter full name',
+                      hintText: 'Enter your full name',
                       hintStyle: greyTextStyle.copyWith(fontSize: 14),
                       prefixIcon: Icon(Icons.person_outline, color: Colors.grey),
                       border: InputBorder.none,
@@ -146,7 +146,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
-                      hintText: 'Enter email',
+                      hintText: 'Enter your email',
                       hintStyle: greyTextStyle.copyWith(fontSize: 14),
                       prefixIcon: Icon(Icons.email_outlined, color: Colors.grey),
                       border: InputBorder.none,

@@ -36,7 +36,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
         decoration: const BoxDecoration(
           border: Border(
             top: BorderSide(
-              color: Colors.grey, // Warna garis tepi atas
+              color: Colors.grey, 
               width: 0.15,
             ),
           ),
@@ -57,10 +57,10 @@ class _BottomNavbarState extends State<BottomNavbar> {
               icon: Icon(Icons.home_outlined),
               label: 'Home',
             ),
-             NavigationDestination(
-             selectedIcon: Icon(Icons.message, color: wMainColor),
+            NavigationDestination(
+              selectedIcon: Icon(Icons.message, color: wMainColor),
               icon: Icon(Icons.message_outlined),
-              label: 'Chatbot', 
+              label: 'Chatbot',
             ),
           ],
         ),
@@ -78,4 +78,3 @@ class _BottomNavbarState extends State<BottomNavbar> {
     );
   }
 }
-
