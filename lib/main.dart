@@ -1,9 +1,11 @@
 import 'package:detak_medis/views/auth/login.dart';
 import 'package:detak_medis/views/auth/register.dart';
 import 'package:detak_medis/views/onboard/get_started.dart';
+import 'package:detak_medis/views/profile/edit_form.dart';
+import 'package:detak_medis/views/profile/profile.dart';
 import 'package:flutter/material.dart';
-import 'package:detak_medis/views/chatbot/chatbot.dart';
-import 'package:detak_medis/views/home/home_page.dart';
+// import 'package:detak_medis/views/chatbot/chatbot.dart';
+// import 'package:detak_medis/views/home/home_page.dart';
 import 'package:detak_medis/views/upload/upload_image.dart';
 import 'package:detak_medis/views/doctor/find_doctor.dart';
 
@@ -22,13 +24,14 @@ class MyApp extends StatelessWidget {
       initialRoute: '/', 
       routes: {
         '/': (context) => const OnboardingPage(),
+        '/edit-profile': (context) => const EditForm(),
+        '/profile': (context) => const ProfilePage(),
         '/login': (context) => const LoginPage(),
         '/register': (context) => const RegisterPage(),
-        '/home': (context) => const HomePage(),
-        '/chatbot': (context) => const ChatbotPage(), 
+        // '/home': (context) => const HomePage(),
+        // '/chatbot': (context) => const ChatbotPage(), 
         '/upload-document': (context) => const UploadImagePage(),
         '/find-doctor': (context) => const FindDoctorPage(),
-        // Tambahkan route lain di sini sesuai kebutuhan
       },
     );
   }

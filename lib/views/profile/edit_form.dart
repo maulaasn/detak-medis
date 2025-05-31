@@ -39,8 +39,14 @@ class _EditFormState extends State<EditForm> {
           ),
         ),
         backgroundColor: Colors.white,
-        iconTheme: const IconThemeData(color: Colors.black),
         elevation: 0,
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(1.0), // Tinggi garis
+          child: Container(
+            height: 1.0,
+            color: Colors.grey.shade300, // Warna garis bawah
+          ),
+        ),
       ),
       body: SafeArea(
         child: Padding(

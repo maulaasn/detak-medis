@@ -14,7 +14,17 @@ class _BottomNavbarState extends State<BottomNavbar> {
   late PageController pageController;
   int selectedIndex = 0;
 
-  final List<Widget> screens = [const HomePage(), const ChatbotPage()];
+  final List<Widget> screens = [
+  const HomePage(),
+  ChatbotPage(
+    onSendMessageToModel: (String messageText) async {
+      // send the message to the model
+      print("Massage sent: $messageText");
+
+    },
+  ),
+];
+
 
   @override
   void initState() {
