@@ -33,7 +33,7 @@ class _EditFormState extends State<EditForm> {
         title: Text(
           'Edit Profile',
           style: blackTextStyle.copyWith(
-            fontSize: 24,
+            fontSize: 22,
             fontWeight: FontWeight.w500,
             color: Colors.black,
           ),

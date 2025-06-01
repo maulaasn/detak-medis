@@ -111,7 +111,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       Text(
                         'Personal Information',
                         style: blackTextStyle.copyWith(
-                          fontSize: 20,
+                          fontSize: 18,
                           fontWeight: medium,
                           color: Colors.black,
                         ),
@@ -143,7 +143,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               Text(
                                 'Email',
                                 style: blackTextStyle.copyWith(
-                                  fontSize: 18,
+                                  fontSize: 16,
                                   fontWeight: medium,
                                 ),
                               ),

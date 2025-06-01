@@ -37,7 +37,7 @@ dependencies:
   google_fonts: ^6.2.1
   lucide_icons: ^0.257.0
   flutter_gen_ai_chat_ui: ^2.1.2
-  url_launcher: ^6.1.7
+  url_launcher: ^6.2.5
   dotted_border: ^2.0.0
   image_picker: ^1.0.4
   http: ^1.4.0
