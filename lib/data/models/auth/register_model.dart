@@ -1,45 +1,19 @@
-import 'package:detak_medis/data/api/auth/login_api.dart';
-import 'package:flutter/material.dart';
+class RegisterModel {
+  final String name;
+  final String email;
+  final String password;
 
-class LoginModel extends ChangeNotifier {
-  bool _isLoading = false;
-  String? _errorMessage;
-  Map<String, dynamic>? _userData;
+  RegisterModel({
+    required this.name,
+    required this.email,
+    required this.password,
+  });
 
-  bool get isLoading => _isLoading;
-  String? get errorMessage => _errorMessage;
-  Map<String, dynamic>? get userData => _userData;
-
-  /// Fungsi login dengan email dan password
-  Future<bool> login(String name, String email, String password) async {
-    _isLoading = true;
-    _errorMessage = null;
-    notifyListeners();
-
-    try {
-      final responseData = await LoginApi.login(email, password);
-
-      debugPrint("Login response: $responseData");
-
-      if (responseData != null && responseData is Map<String, dynamic>) {
-        _userData = responseData;
-        _isLoading = false;
-        notifyListeners();
-        return true;
-      } else {
-        _errorMessage = "Login gagal: format data tidak dikenali.";
-      }
-    } catch (e) {
-      _errorMessage = "Login gagal: ${e.toString()}";
-    }
-
-    _isLoading = false;
-    notifyListeners();
-    return false;
-  }
-
-  void logout() {
-    _userData = null;
-    notifyListeners();
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'email': email,
+      'password': password,
+    };
   }
 }

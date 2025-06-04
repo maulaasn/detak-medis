@@ -3,14 +3,15 @@ import 'package:detak_medis/ui/theme.dart';
 import 'package:detak_medis/data/models/chatbot/chatbot_model.dart';
 
 /// Widget animasi "Typing..." saat AI membalas
-class TypingIndicator extends StatefulWidget {
-  const TypingIndicator({super.key});
+class ChatBot extends StatefulWidget {
+  const ChatBot({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _TypingIndicatorState createState() => _TypingIndicatorState();
 }
 
-class _TypingIndicatorState extends State<TypingIndicator>
+class _TypingIndicatorState extends State<ChatBot>
     with TickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _animation;
@@ -342,7 +343,7 @@ class _ChatbotPageState extends State<ChatbotPage> {
                           bottomRight: Radius.circular(16.0),
                         ),
                       ),
-                      child: const TypingIndicator(),
+                      child: const ChatBot(),
                     ),
                   );
                 }

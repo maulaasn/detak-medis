@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:detak_medis/views/chatbot/chatbot.dart';
+import 'package:detak_medis/views/chatbot.dart';
 import 'package:detak_medis/data/api/chatbot/chat_api.dart';
 
 class ChatbotModel {

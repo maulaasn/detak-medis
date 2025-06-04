@@ -1,6 +1,6 @@
-import 'package:detak_medis/views/doctor/find_doctor.dart';
-import 'package:detak_medis/views/profile/profile.dart';
-import 'package:detak_medis/views/upload/upload_image.dart';
+import 'package:detak_medis/views/find_doctor.dart';
+import 'package:detak_medis/views/profile.dart';
+import 'package:detak_medis/views/upload_image.dart';
 import 'package:flutter/material.dart';
 import 'package:detak_medis/ui/theme.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -9,7 +9,7 @@ class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   // Fungsi launch URL dengan tipe Future<void>
-  Future<void> _launchURL(String url) async {
+  void _launchURL(String url) async {
     final uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
@@ -27,7 +27,7 @@ class HomePage extends StatelessWidget {
           children: [
             // ================= HEADER ===================
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+              padding: const EdgeInsets.fromLTRB(20, 30, 20, 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -35,9 +35,9 @@ class HomePage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Welcome to \nDetak Medics',
+                        'Welcome to \nDetak Medis',
                         style: blackTextStyle.copyWith(
-                          fontSize: 28,
+                          fontSize: 22,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -58,46 +58,61 @@ class HomePage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 32),
+
+                  // Our Features Text
+                  Text(
+                    'Our Features',
+                    style: blackTextStyle.copyWith(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
 
                   // ================= FEATURE CARDS ===================
                   SizedBox(
                     height: MediaQuery.of(context).size.width / 3,
-                    child: ListView(
+                    child: ListView.separated(
                       scrollDirection: Axis.horizontal,
                       physics: const BouncingScrollPhysics(),
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const UploadImagePage(),
-                              ),
-                            );
-                          },
-                          child: const FeatureCard(
-                            icon: Icons.upload_file,
-                            title: 'Upload Your Medical Record',
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const FindDoctorPage(),
-                              ),
-                            );
-                          },
-                          child: FeatureCard(
-                            icon: Icons.search_outlined,
-                            title: 'Find Heart Specialist Doctor',
-                          ),
-                        ),
-                      ],
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      itemCount: 2,
+                      separatorBuilder:
+                          (context, index) => const SizedBox(width: 12),
+                      itemBuilder: (context, index) {
+                        if (index == 0) {
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const UploadImagePage(),
+                                ),
+                              );
+                            },
+                            child: const FeatureCard(
+                              icon: Icons.upload_file,
+                              title: 'Upload Your Medical Record',
+                            ),
+                          );
+                        } else {
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const FindDoctorPage(),
+                                ),
+                              );
+                            },
+                            child: const FeatureCard(
+                              icon: Icons.search_outlined,
+                              title: 'Find Heart Specialist Doctor',
+                            ),
+                          );
+                        }
+                      },
                     ),
                   ),
                 ],
@@ -108,7 +123,7 @@ class HomePage extends StatelessWidget {
             Expanded(
               child: Container(
                 height: MediaQuery.of(context).size.height * 2 / 3,
-                margin: const EdgeInsets.symmetric(vertical: 12),
+                margin: EdgeInsets.zero,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -141,13 +156,14 @@ class HomePage extends StatelessWidget {
                     // Scroll hanya untuk daftar artikel
                     Expanded(
                       child: SingleChildScrollView(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
                         child: Column(
                           children: [
                             ArticleCard(
                               title:
                                   '“Is Your Heart in Good Health? 10 Frequent Questions”',
                               subtitle:
-                                  'What are the signs of an unhealthy heart? ...',
+                                  'What are the signs of an unhealthy heart? What should you do in case of a heart attack? Dr Lim Choon Pin ...',
                               imagePath: 'assets/img/doctor-artikel1.png',
                               url:
                                   'https://www.mountelizabeth.com.sg/id/health-plus/article/10-heart-questions-answered',
@@ -158,7 +174,7 @@ class HomePage extends StatelessWidget {
                               title:
                                   '“Living Healthy with Chronic Kidney Disease”',
                               subtitle:
-                                  'Chronic kidney disease has been on the rise ...',
+                                  'Chronic kidney disease has been on the rise, and it is more important than ever to know what chronic ...',
                               imagePath: 'assets/img/doctor-artikel2.png',
                               url:
                                   'https://www.mountelizabeth.com.sg/id/health-plus/article/living-with-chronic-kidney-disease',
@@ -169,7 +185,7 @@ class HomePage extends StatelessWidget {
                               title:
                                   '“Irregular Heartbeat? It could be Atrial Fibrillation”',
                               subtitle:
-                                  'Atrial fibrillation (AF or AFib), is the most commonly ...',
+                                  'Atrial fibrillation (AF or AFib), is the most commonly diagnosed arrhythmia in clinical practice. Cardiologist Pipin Kojodjojo ...',
                               imagePath: 'assets/img/doctor-artikel3.png',
                               url:
                                   'https://www.mountelizabeth.com.sg/id/health-plus/article/pulsed-field-ablation-atrial-fibrillation',
@@ -261,7 +277,7 @@ class FeatureCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.5,
+      width: MediaQuery.of(context).size.width * 0.42,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: const Color.fromARGB(255, 236, 248, 255),
@@ -270,7 +286,7 @@ class FeatureCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, color: wMainColor, size: 24),
+          Icon(icon, color: wMainColor, size: 28),
           const Spacer(),
           const SizedBox(height: 4),
           Text(

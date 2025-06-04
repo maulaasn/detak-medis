@@ -3,49 +3,52 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 
 class RegisterApi {
-  static const String baseUrl = 'http://10.0.2.2:8000'; // untuk Android emulator
+  // static const String baseUrl = 'http://192.168.1.30:8000';
+    // static const String baseUrl = 'http://192.168.127.87:8000';
+    static const String baseUrl = 'http://192.168.210.87:8000';
 
-  static Future<dynamic> login(String name, String email, String password) async {
+  static Future<Map<String, dynamic>> register(String name, String email, String password) async {
+    final url = Uri.parse('$baseUrl/auth/register');
+    
+    final requestBody = {
+      'name': name,
+      'email': email,
+      'password': password,
+    };
+
     try {
-      final url = Uri.parse('$baseUrl/login/');
-      
-      debugPrint("Sending request to: $url");
-      debugPrint("Request body: ${jsonEncode({'name': name, 'email': email, 'password': password})}");
-      
+      debugPrint("Sending POST to $url with body: ${jsonEncode(requestBody)}");
+
       final response = await http.post(
         url,
         headers: {
-          'accept': 'application/json',
+          'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
-        body: jsonEncode({'name': name, 'email': email, 'password': password}),
+        body: jsonEncode(requestBody),
       ).timeout(
-        const Duration(seconds: 30), // timeout
+        const Duration(seconds: 60),
         onTimeout: () {
-          throw Exception('Request timeout - server took too long to respond');
+          throw Exception('Request timeout: Server tidak merespons dalam 60 detik.');
         },
       );
 
       debugPrint("Response status: ${response.statusCode}");
-      debugPrint("Response headers: ${response.headers}");
       debugPrint("Response body: ${response.body}");
 
-      if (response.statusCode == 200) {
-        try {
-          final result = jsonDecode(response.body);
-          debugPrint("Parsed result: $result");
-          return result;
-        } catch (parseError) {
-          debugPrint("JSON parsing error: $parseError");
-          // If JSON parsing fails, return the raw response
-          return {'response': response.body};
-        }
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return jsonDecode(response.body);
       } else {
-        debugPrint("HTTP Error ${response.statusCode}: ${response.body}");
-        throw Exception('HTTP ${response.statusCode}: ${response.reasonPhrase}');
+        // Tangani jika response body bukan JSON valid
+        try {
+          final errorBody = jsonDecode(response.body);
+          throw Exception(errorBody['detail'] ?? 'Gagal register: HTTP ${response.statusCode}');
+        } catch (_) {
+          throw Exception('Gagal register: ${response.body}');
+        }
       }
     } catch (e) {
-      debugPrint("Network error in register: $e");
+      debugPrint("Error saat register: $e");
       rethrow;
     }
   }

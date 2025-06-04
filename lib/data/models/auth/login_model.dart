@@ -1,45 +1,39 @@
-import 'package:detak_medis/data/api/auth/login_api.dart';
-import 'package:flutter/material.dart';
+class LoginRequest {
+  final String email;
+  final String password;
 
-class LoginModel extends ChangeNotifier {
-  bool _isLoading = false;
-  String? _errorMessage;
-  Map<String, dynamic>? _userData;
+  LoginRequest({
+    required this.email,
+    required this.password,
+  });
 
-  bool get isLoading => _isLoading;
-  String? get errorMessage => _errorMessage;
-  Map<String, dynamic>? get userData => _userData;
-
-  /// Fungsi login dengan email dan password
-  Future<bool> login(String email, String password) async {
-    _isLoading = true;
-    _errorMessage = null;
-    notifyListeners();
-
-    try {
-      final responseData = await LoginApi.login(email, password);
-
-      debugPrint("Login response: $responseData");
-
-      if (responseData != null && responseData is Map<String, dynamic>) {
-        _userData = responseData;
-        _isLoading = false;
-        notifyListeners();
-        return true;
-      } else {
-        _errorMessage = "Login gagal: format data tidak dikenali.";
-      }
-    } catch (e) {
-      _errorMessage = "Login gagal: ${e.toString()}";
-    }
-
-    _isLoading = false;
-    notifyListeners();
-    return false;
+  Map<String, dynamic> toJson() {
+    return {
+      'email': email,
+      'password': password,
+    };
   }
+}
 
-  void logout() {
-    _userData = null;
-    notifyListeners();
+class LoginResponse {
+  final bool success;
+  final String message;
+  final String? accessToken;
+  final String? tokenType;
+
+  LoginResponse({
+    required this.success,
+    required this.message,
+    this.accessToken,
+    this.tokenType,
+  });
+
+  factory LoginResponse.fromJson(Map<String, dynamic> json) {
+    return LoginResponse(
+      success: json['access_token'] != null, // Jika ada access_token berarti sukses
+      message: json['access_token'] != null ? 'Login berhasil!' : (json['message'] ?? 'Login gagal'),
+      accessToken: json['access_token'],
+      tokenType: json['token_type'],
+    );
   }
 }

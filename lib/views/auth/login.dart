@@ -1,7 +1,9 @@
+import 'package:detak_medis/data/api/auth/login_api.dart';
 import 'package:detak_medis/ui/widgets/bottom_navbar.dart';
+import 'package:detak_medis/views/auth/register.dart';
 import 'package:flutter/material.dart';
 import 'package:detak_medis/ui/theme.dart';
-import 'package:detak_medis/views/auth/register.dart';
+import 'package:detak_medis/data/models/auth/login_model.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -11,41 +13,63 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-
   bool _isPasswordVisible = false;
-  bool _isLoading = false;
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  void _login() {
+  bool isLoading = false;
+  String? errorMessage;
+
+  void _login() async {
     setState(() {
-      _isLoading = true;
+      isLoading = true;
     });
-    
-    // Simulasi proses login
-    Future.delayed(const Duration(seconds: 2), () {
+
+    final email = emailController.text.trim();
+    final password = passwordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
       setState(() {
-        _isLoading = false;
+        isLoading = false;
       });
-      
-      // Implementasi logika login sebenarnya
-      String email = _emailController.text;
-      String password = _passwordController.text;
-      
-      print('Email/Username: $email');
-      print('Password: $password');
-      
-      // Navigasi ke halaman berikutnya
-      Navigator.push(context, MaterialPageRoute(
-        builder: (context) => const BottomNavbar(),
-      ));
+      _showSnackBar('Email dan password tidak boleh kosong');
+      return;
+    }
+
+    final loginRequest = LoginRequest(email: email, password: password);
+    final response = await LoginApi.login(loginRequest);
+
+    setState(() {
+      isLoading = false;
     });
+
+    if (response.success) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const BottomNavbar()));
+      _showSnackBar(response.message, isError: false);
+    } else {
+      _showSnackBar(response.message);
+    }
+  }
+
+  void _showSnackBar(String message, {bool isError = true}) {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(message),
+          backgroundColor: isError ? Colors.red : Colors.green,
+          behavior: SnackBarBehavior.floating,
+          margin: EdgeInsets.all(defaultMargin),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        ),
+      );
+    }
   }
 
   @override
   void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
     super.dispose();
   }
 
@@ -60,107 +84,78 @@ class _LoginPageState extends State<LoginPage> {
               horizontal: defaultMargin,
               vertical: defaultMargin * 1.5,
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                // Logo atau Icon (optional)
-                Center(
-                  child: Container(
-                    margin: EdgeInsets.only(bottom: defaultMargin * 2),
-                    width: 80,
-                    height: 80,
-                    decoration: BoxDecoration(
-                      color: wMainColor.withOpacity(0.1),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      Icons.favorite,
-                      size: 40,
-                      color: wMainColor,
-                    ),
-                  ),
-                ),
-                
-                // Judul dan Subtitle
-                Text(
-                  'Welcome to Detak Medis',
-                  style: blackTextStyle.copyWith(
-                    fontSize: 28,
-                    fontWeight: bold,
-                  ),
-                ),
-                SizedBox(height: 8),
-                Text(
-                  'Please login to continue',
-                  style: greyTextStyle.copyWith(
-                    fontSize: 16,
-                    fontWeight: light,
-                  ),
-                ),
-                SizedBox(height: defaultMargin * 2),
-                
-                // Form Input
-                Text(
-                  'Email or username',
-                  style: blackTextStyle.copyWith(
-                    fontSize: 14,
-                    fontWeight: medium,
-                  ),
-                ),
-                SizedBox(height: 8),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade50,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: Colors.grey.shade200,
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Center(
+                    child: Container(
+                      margin: EdgeInsets.only(bottom: defaultMargin * 2),
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        color: wMainColor.withOpacity(0.1),
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: wMainColor.withOpacity(0.2),
+                            blurRadius: 10,
+                            offset: const Offset(0, 5),
+                          ),
+                        ],
+                      ),
+                      child: Icon(
+                        Icons.local_hospital_outlined,
+                        size: 50,
+                        color: wMainColor,
+                      ),
                     ),
                   ),
-                  child: TextFormField(
-                    controller: _emailController,
+                  Text(
+                    'Welcome Back!',
+                    style: blackTextStyle.copyWith(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    'Sign in to continue your journey with Detak Medis.',
+                    style: greyTextStyle.copyWith(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  SizedBox(height: defaultMargin * 2.5),
+
+                  TextFormField(
+                    controller: emailController,
                     keyboardType: TextInputType.emailAddress,
+                    validator: (value) => value != null && value.contains('@') ? null : 'Email tidak valid',
                     decoration: InputDecoration(
-                      hintText: 'Enter email or username',
-                      hintStyle: greyTextStyle.copyWith(fontSize: 14),
-                      prefixIcon: Icon(Icons.person_outline, color: Colors.grey),
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(vertical: 16),
-                    ),
-                    style: blackTextStyle.copyWith(fontWeight: regular),
-                  ),
-                ),
-                SizedBox(height: defaultMargin),
-                
-                Text(
-                  'Password',
-                  style: blackTextStyle.copyWith(
-                    fontSize: 14,
-                    fontWeight: medium,
-                  ),
-                ),
-                SizedBox(height: 8),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade50,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: Colors.grey.shade200,
+                      labelText: 'Email',
+                      hintText: 'Enter your email',
+                      prefixIcon: Icon(Icons.email_outlined, color: wMainColor),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 10),
                     ),
                   ),
-                  child: TextFormField(
-                    controller: _passwordController,
+                  SizedBox(height: defaultMargin * 1.5),
+
+                  TextFormField(
+                    controller: passwordController,
                     obscureText: !_isPasswordVisible,
+                    validator: (value) => value != null && value.length >= 6 ? null : 'Password minimal 6 karakter',
                     decoration: InputDecoration(
-                      hintText: 'At least 8 characters',
-                      hintStyle: greyTextStyle.copyWith(fontSize: 14),
-                      prefixIcon: Icon(Icons.lock_outline, color: Colors.grey),
+                      labelText: 'Password',
+                      hintText: 'Minimum 6 characters',
+                      prefixIcon: Icon(Icons.lock_outline, color: wMainColor),
                       suffixIcon: IconButton(
                         icon: Icon(
-                          _isPasswordVisible
-                              ? Icons.visibility_outlined
-                              : Icons.visibility_off_outlined,
-                          color: Colors.grey,
+                          _isPasswordVisible ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                          color: Colors.grey[600],
                         ),
                         onPressed: () {
                           setState(() {
@@ -168,102 +163,44 @@ class _LoginPageState extends State<LoginPage> {
                           });
                         },
                       ),
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(vertical: 16),
-                    ),
-                    style: blackTextStyle.copyWith(fontWeight: regular),
-                  ),
-                ),
-                
-                // Lupa Password
-                Container(
-                  alignment: Alignment.centerRight,
-                  margin: EdgeInsets.only(top: 8),
-                  child: TextButton(
-                    onPressed: () {
-                      // Aksi lupa password
-                    },
-                    style: TextButton.styleFrom(
-                      minimumSize: Size.zero,
-                      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
-                    child: Text(
-                      'Forgot Password?',
-                      style: blackTextStyle.copyWith(
-                        fontSize: 13,
-                        fontWeight: medium,
-                      ),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 10),
                     ),
                   ),
-                ),
-                SizedBox(height: defaultMargin * 2),
-                
-                // Tombol Login
-                ElevatedButton(
-                  onPressed: _isLoading ? null : _login,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: wMainColor,
-                    foregroundColor: Colors.white,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+
+
+                  SizedBox(height: defaultMargin * 2),
+
+                  ElevatedButton(
+                    onPressed: isLoading ? null : _login,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: wMainColor,
+                      foregroundColor: Colors.white,
+                      minimumSize: const Size(double.infinity, 60),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                     ),
-                    minimumSize: Size(double.infinity, 56),
-                    disabledBackgroundColor: wMainColor.withOpacity(0.6),
+                    child: isLoading
+                        ? const SizedBox(height: 28, width: 28, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 3))
+                        : Text('LOGIN', style: whiteTextStyle.copyWith(fontSize: 18, fontWeight: FontWeight.bold)),
                   ),
-                  child: _isLoading
-                      ? SizedBox(
-                          height: 24,
-                          width: 24,
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                            strokeWidth: 2,
-                          ),
-                        )
-                      : Text(
-                          'LOGIN',
-                          style: whiteTextStyle.copyWith(
-                            fontSize: 16,
-                            fontWeight: semiBold,
-                          ),
+
+                  SizedBox(height: defaultMargin * 1.5),
+                  Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Don't have an account?", style: greyTextStyle),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterPage()));
+                          },
+                          child: Text('Register Now', style: TextStyle(color: wMainColor, fontWeight: FontWeight.bold)),
                         ),
-                ),
-                SizedBox(height: defaultMargin * 1.5),
-                
-                // Opsi Register
-                Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Don't have an account?",
-                        style: greyTextStyle.copyWith(fontWeight: regular),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const RegisterPage()),
-                          );
-                        },
-                        style: TextButton.styleFrom(
-                          minimumSize: Size.zero,
-                          padding: EdgeInsets.symmetric(horizontal: 4),
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        ),
-                        child: Text(
-                          'Register',
-                          style: TextStyle(
-                            color: wMainColor,
-                            fontWeight: semiBold,
-                          ),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

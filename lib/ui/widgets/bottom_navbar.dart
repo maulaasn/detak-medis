@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:detak_medis/ui/theme.dart';
-import 'package:detak_medis/views/home/home_page.dart';
-import 'package:detak_medis/views/chatbot/chatbot.dart';
+import 'package:detak_medis/views/home_page.dart';
+import 'package:detak_medis/views/chatbot.dart';
 
 class BottomNavbar extends StatefulWidget {
   const BottomNavbar({super.key});

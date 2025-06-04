@@ -3,7 +3,8 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 
 class ChatApi {
-  static const String baseUrl = 'http://10.0.2.2:8000'; // untuk Android emulator
+  // static const String baseUrl = 'http://192.168.127.87:8000'; // untuk Android emulator
+  static const String baseUrl = 'http://192.168.210.87:8000';
 
   static Future<dynamic> sendMessage(String message) async {
     try {
@@ -20,7 +21,7 @@ class ChatApi {
         },
         body: jsonEncode({'query': message}),
       ).timeout(
-        const Duration(seconds: 30), // timeout
+        const Duration(seconds: 60), // timeout
         onTimeout: () {
           throw Exception('Request timeout - server took too long to respond');
         },
